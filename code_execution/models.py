@@ -3,17 +3,14 @@ from code_execution.domain.codeRunnerEngine import CodeRunnerEngine
 
 
 class CodeExecutionResponse(models.Model):
-
-    owner_id = models.CharField(max_length=100)
-    execution_id = models.CharField(max_length=100)
-    language = models.CharField(max_length=2, default='no')
-    code = models.TextField(default="null")
-    code_test = models.TextField(default="null")
-    code_result = models.IntegerField()
-    result = models.CharField(max_length=1000)
+    execution_id = models.IntegerField(unique=True)
+    language = models.CharField(max_length=2, default='py')
+    code = models.TextField(null=True, blank=True)
+    code_result = models.IntegerField(null=True, blank=True)
+    result = models.CharField(max_length=1000, null=True, blank=True)
 
     def __int__(self):
-        return self.language + " " + self.owner_id
+        return self.language + " " + str(self.execution_id)
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
